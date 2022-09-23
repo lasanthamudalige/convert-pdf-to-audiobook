@@ -56,9 +56,9 @@ def main():
     # If there the file is on a different location split it with forward slash
     audio_book_name = audio_book.split("/")
 
-    # If the file is in the same directory
     if audio_book_name != "":
         audio_book_name = audio_book_name[-1]
+    # If the file is in the same directory
     else:
         audio_book_name = audio_book
 
