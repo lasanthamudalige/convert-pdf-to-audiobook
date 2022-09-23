@@ -1,4 +1,4 @@
-from PyPDF2 import PdfReader
+import PyPDF2
 import sys
 from google.cloud import texttospeech
 
@@ -7,66 +7,75 @@ from google.cloud import texttospeech
 
 
 def main():
-    # Passing pdf file as an argument variable
-    pdf = sys.argv[1]
-    reader = PdfReader(pdf)
+    try:
+        # Passing pdf file as an argument variable
+        pdf = sys.argv[1]
 
-    number_of_pages = len(reader.pages)
+        try:
+            reader = PyPDF2.PdfReader(pdf)
 
-    text = ""
+            number_of_pages = len(reader.pages)
 
-    # Add all text to text variable in every page
-    for page_number in range(number_of_pages):
-        page = reader.pages[page_number]
-        text += page.extract_text()
+            text = ""
 
-    """Synthesizes speech from the input string of text or ssml.
-    Make sure to be working in a virtual environment.
+            # Add all text to text variable in every page
+            for page_number in range(number_of_pages):
+                page = reader.pages[page_number]
+                text += page.extract_text()
 
-    Note: ssml must be well-formed according to:
-        https://www.w3.org/TR/speech-synthesis/
-    """
+            """Synthesizes speech from the input string of text or ssml.
+            Make sure to be working in a virtual environment.
 
-    # Instantiates a client
-    client = texttospeech.TextToSpeechClient()
+            Note: ssml must be well-formed according to:
+                https://www.w3.org/TR/speech-synthesis/
+            """
 
-    # Set the text input to be synthesized
-    synthesis_input = texttospeech.SynthesisInput(text=text)
+            # Instantiates a client
+            client = texttospeech.TextToSpeechClient()
 
-    # Build the voice request, select the language code ("en-US") and the ssml
-    # voice gender ("neutral")
-    voice = texttospeech.VoiceSelectionParams(
-        language_code="en-US", ssml_gender=texttospeech.SsmlVoiceGender.SSML_VOICE_GENDER_UNSPECIFIED
-    )
+            # Set the text input to be synthesized
+            synthesis_input = texttospeech.SynthesisInput(text=text)
 
-    # Select the type of audio file you want returned
-    audio_config = texttospeech.AudioConfig(
-        audio_encoding=texttospeech.AudioEncoding.MP3
-    )
+            # Build the voice request, select the language code ("en-US") and the ssml
+            # voice gender ("neutral")
+            voice = texttospeech.VoiceSelectionParams(
+                language_code="en-US", ssml_gender=texttospeech.SsmlVoiceGender.SSML_VOICE_GENDER_UNSPECIFIED
+            )
 
-    # Perform the text-to-speech request on the text input with the selected
-    # voice parameters and audio file type
-    response = client.synthesize_speech(
-        input=synthesis_input, voice=voice, audio_config=audio_config
-    )
+            # Select the type of audio file you want returned
+            audio_config = texttospeech.AudioConfig(
+                audio_encoding=texttospeech.AudioEncoding.MP3
+            )
 
-    # Split name from the '.' and get first item from the list
-    audio_book = pdf.split(".")[0]
+            # Perform the text-to-speech request on the text input with the selected
+            # voice parameters and audio file type
+            response = client.synthesize_speech(
+                input=synthesis_input, voice=voice, audio_config=audio_config
+            )
 
-    # If there the file is on a different location split it with forward slash
-    audio_book_name = audio_book.split("/")
+            # Split name from the '.' and get first item from the list
+            audio_book = pdf.split(".")[0]
 
-    if audio_book_name != "":
-        audio_book_name = audio_book_name[-1]
-    # If the file is in the same directory
-    else:
-        audio_book_name = audio_book
+            # If there the file is on a different location split it with forward slash
+            audio_book_name = audio_book.split("/")
 
-    # The response's audio_content is binary.
-    with open(f"{audio_book_name}.mp3", "wb") as out:
-        # Write the response to the output file.
-        out.write(response.audio_content)
-        print(f'Audio content written to file "{audio_book_name}.mp3"')
+            if audio_book_name != "":
+                audio_book_name = audio_book_name[-1]
+            # If the file is in the same directory
+            else:
+                audio_book_name = audio_book
+
+            # The response's audio_content is binary.
+            with open(f"{audio_book_name}.mp3", "wb") as out:
+                # Write the response to the output file.
+                out.write(response.audio_content)
+                print(f'Audio content written to file "{audio_book_name}.mp3"')
+
+        except PyPDF2.errors.PdfReadError:
+            print("Invalid file type")
+
+    except IndexError:
+        print("Pdf file not found")
 
 
 main()
