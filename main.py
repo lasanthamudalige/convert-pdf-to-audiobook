@@ -1,19 +1,24 @@
 from PyPDF2 import PdfReader
 import sys
 from google.cloud import texttospeech
-import random
+
+
+"""Free google speech to text is limited to 5000 characters"""
 
 
 def main():
-    # pdf = sys.argv[1]
-    # reader = PdfReader(pdf)
+    # Passing pdf file as an argument variable
+    pdf = sys.argv[1]
+    reader = PdfReader(pdf)
 
-    reader = PdfReader("sample.pdf")
     number_of_pages = len(reader.pages)
 
+    text = ""
+
+    # Add all text to text variable in every page
     for page_number in range(number_of_pages):
         page = reader.pages[page_number]
-    #     print(page.extract_text())
+        text += page.extract_text()
 
     """Synthesizes speech from the input string of text or ssml.
     Make sure to be working in a virtual environment.
@@ -26,12 +31,12 @@ def main():
     client = texttospeech.TextToSpeechClient()
 
     # Set the text input to be synthesized
-    synthesis_input = texttospeech.SynthesisInput(text="Hello, World!")
+    synthesis_input = texttospeech.SynthesisInput(text=text)
 
     # Build the voice request, select the language code ("en-US") and the ssml
     # voice gender ("neutral")
     voice = texttospeech.VoiceSelectionParams(
-        language_code="en-US", ssml_gender=texttospeech.SsmlVoiceGender.NEUTRAL
+        language_code="en-US", ssml_gender=texttospeech.SsmlVoiceGender.SSML_VOICE_GENDER_UNSPECIFIED
     )
 
     # Select the type of audio file you want returned
@@ -45,12 +50,23 @@ def main():
         input=synthesis_input, voice=voice, audio_config=audio_config
     )
 
+    # Split name from the '.' and get first item from the list
+    audio_book = pdf.split(".")[0]
+
+    # If there the file is on a different location split it with forward slash
+    audio_book_name = audio_book.split("/")
+
+    # If the file is in the same directory
+    if audio_book_name != "":
+        audio_book_name = audio_book_name[-1]
+    else:
+        audio_book_name = audio_book
+
     # The response's audio_content is binary.
-    random_number = random.randint(1, 1000)
-    with open(f"output{random_number}.mp3", "wb") as out:
+    with open(f"{audio_book_name}.mp3", "wb") as out:
         # Write the response to the output file.
         out.write(response.audio_content)
-        print(f'Audio content written to file "output{random_number}.mp3"')
+        print(f'Audio content written to file "{audio_book_name}.mp3"')
 
 
 main()
