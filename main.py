@@ -70,6 +70,7 @@ def main():
                 # Write the response to the output file.
                 out.write(response.audio_content)
                 print(f'Audio content written to file "{audio_book_name}.mp3"')
+                sys.exit(0)
 
         except PyPDF2.errors.PdfReadError:
             print("Invalid file type")
