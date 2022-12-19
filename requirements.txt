@@ -1,2 +1,2 @@
 PyPDF2==2.12.1
-google-cloud-texttospeech==2.13.0
+gTTS==2.3.0
