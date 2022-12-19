@@ -1,2 +1,2 @@
-PyPDF2
-google.cloud
+PyPDF2==2.12.1
+google.cloud==0.34.0
