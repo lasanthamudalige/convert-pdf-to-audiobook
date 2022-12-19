@@ -1,6 +1,6 @@
 # AUDIOWORD 
 
-PDF to audiobook converter using [Python](https://www.python.org/), [PyPDF](https://pypdf2.readthedocs.io/en/latest/) and [Google cloud Text-to-speech](https://codelabs.developers.google.com/codelabs/cloud-text-speech-python3/#0).
+PDF to audiobook converter using [Python](https://www.python.org/), [PyPDF2](https://pypdf2.readthedocs.io/en/latest/) and [Google cloud Text-to-speech](https://codelabs.developers.google.com/codelabs/cloud-text-speech-python3/#0).
 
 ## Table of contents
 * [General info](#general-info)
