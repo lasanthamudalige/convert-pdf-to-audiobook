@@ -10,7 +10,7 @@ PDF to audiobook convertion Program using [Python](https://www.python.org/), [Py
 
 ## General info
 
-This is a command line program that converts PDf files to audiobooks under 5000 characters.  
+This is a command line program that converts PDF files to an audiobook (PDF files under 5000 characters).  
 
 ## Technologies
 Project is created with:
