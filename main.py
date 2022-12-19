@@ -1,7 +1,6 @@
 import PyPDF2
 from gtts import gTTS
 import sys
-import random
 
 
 def main():
