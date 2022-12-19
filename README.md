@@ -1,6 +1,6 @@
 # AUDIOWORD 
 
-PDF to audiobook converter using [Python](https://www.python.org/), [PyPDF2](https://pypdf2.readthedocs.io/en/latest/) and [Google cloud Text-to-speech](https://codelabs.developers.google.com/codelabs/cloud-text-speech-python3/#0).
+Audiobook converter using [Python](https://www.python.org/), [PyPDF2](https://pypdf2.readthedocs.io/en/latest/) and [gTTS](https://github.com/pndurette/gTTS).
 
 ## Table of contents
 * [General info](#general-info)
@@ -10,13 +10,13 @@ PDF to audiobook converter using [Python](https://www.python.org/), [PyPDF2](htt
 
 ## General info
 
-This is a command line program that converts PDF files to an audiobook (PDF files under 5000 characters).  
+This is a command line program converts PDF files to an audiobook using google Text-to-speech api.  
 
 ## Technologies
 Project is created with:
 * Python version: 3.10.6
 * PyPDF2 version: 2.12.1
-* Google cloud Text-to-speech version: 2.13.0
+* gTTs version: 2.3.0
 	
 ## Setup
 
