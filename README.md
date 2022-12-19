@@ -15,8 +15,7 @@ This is a command line program converts PDF files to an audiobook using google T
 ## Technologies
 Project is created with:
 * Python version: 3.10.6
-* PyPDF2 version: 2.12.1
-* gTTs version: 2.3.0
+* gTTS version: 2.3.0
 	
 ## Setup
 
